@@ -1,67 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import h5py
 from .activation_functions import relu,sigmoid,relu_backward,sigmoid_backward
 
-def initialize_parameters(n_x, n_h, n_y):
-    """
-    Argument:
-    n_x -- size of the input layer
-    n_h -- size of the hidden layer
-    n_y -- size of the output layer
-    
-    Returns:
-    parameters -- python dictionary containing your parameters:
-                    W1 -- weight matrix of shape (n_h, n_x)
-                    b1 -- bias vector of shape (n_h, 1)
-                    W2 -- weight matrix of shape (n_y, n_h)
-                    b2 -- bias vector of shape (n_y, 1)
-    """
-    
-    np.random.seed(1)
-    
-    W1 = np.random.randn(n_h, n_x)*0.01
-    b1 = np.zeros((n_h, 1))
-    W2 = np.random.randn(n_y, n_h)*0.01
-    b2 = np.zeros((n_y, 1))
-    
-    assert(W1.shape == (n_h, n_x))
-    assert(b1.shape == (n_h, 1))
-    assert(W2.shape == (n_y, n_h))
-    assert(b2.shape == (n_y, 1))
-    
-    parameters = {"W1": W1,
-                  "b1": b1,
-                  "W2": W2,
-                  "b2": b2}
-    
-    return parameters     
 
-
-def initialize_parameters_deep(layer_dims):
-    """
-    Arguments:
-    layer_dims -- python array (list) containing the dimensions of each layer in our network
-    
-    Returns:
-    parameters -- python dictionary containing your parameters "W1", "b1", ..., "WL", "bL":
-                    Wl -- weight matrix of shape (layer_dims[l], layer_dims[l-1])
-                    bl -- bias vector of shape (layer_dims[l], 1)
-    """
-    
-    np.random.seed(1)
-    parameters = {}
-    L = len(layer_dims)            # number of layers in the network
-
-    for l in range(1, L):
-        parameters['W' + str(l)] = np.random.randn(layer_dims[l], layer_dims[l-1]) / np.sqrt(layer_dims[l-1]) #*0.01
-        parameters['b' + str(l)] = np.zeros((layer_dims[l], 1))
-        
-        assert(parameters['W' + str(l)].shape == (layer_dims[l], layer_dims[l-1]))
-        assert(parameters['b' + str(l)].shape == (layer_dims[l], 1))
-
-        
-    return parameters
 
 def linear_forward(A, W, b):
     """
@@ -267,16 +208,17 @@ def L_model_backward(AL, Y, caches):
 
     return grads
 
-def update_parameters(parameters, grads, learning_rate):
+def update_parameters(parameters: dict, grads: dict, learning_rate: float):
     """
     Update parameters using gradient descent
     
     Arguments:
-    parameters -- python dictionary containing your parameters 
-    grads -- python dictionary containing your gradients, output of L_model_backward
+        parameters(dict): python dictionary containing your parameters 
+        grads(dict): python dictionary containing your gradients, output of L_model_backward
+        learning_rate(float): Learning rate use in weight optimization
     
     Returns:
-    parameters -- python dictionary containing your updated parameters 
+        parameters(dict): python dictionary containing your updated parameters 
                   parameters["W" + str(l)] = ... 
                   parameters["b" + str(l)] = ...
     """
@@ -295,11 +237,11 @@ def predict(X, y, parameters):
     This function is used to predict the results of a  L-layer neural network.
     
     Arguments:
-    X -- data set of examples you would like to label
+        X: data set of examples you would like to label
     parameters -- parameters of the trained model
     
     Returns:
-    p -- predictions for the given dataset X
+        p: predictions for the given dataset X
     """
     
     m = X.shape[1]
@@ -327,9 +269,11 @@ def predict(X, y, parameters):
 def print_mislabeled_images(classes, X, y, p):
     """
     Plots images where predictions and truth were different.
-    X -- dataset
-    y -- true labels
-    p -- predictions
+    
+    Arguments:
+        X: dataset
+        y: true labels
+        p: predictions
     """
     a = p + y
     mislabeled_indices = np.asarray(np.where(a == 1))
