@@ -1,0 +1,1 @@
+· Hacer un test para comprobar que el nº de filas en los datos de entrada(features) es el mismo nº que el de neuronas en la primera capa
