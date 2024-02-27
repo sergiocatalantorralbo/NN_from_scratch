@@ -5,7 +5,7 @@ import sklearn
 import sklearn.datasets
 import sklearn.linear_model
 
-cats_path = '../datasets/course1/week1'
+cats_path = './datasets/course1/week1'
 def load_cats_dataset():
     train_dataset = h5py.File(f'{cats_path}/train_catvnoncat.h5', "r")
     train_set_x_orig = np.array(train_dataset["train_set_x"][:]) # your train set features

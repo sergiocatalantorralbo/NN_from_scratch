@@ -1,10 +1,10 @@
 import numpy as np
 import math
-import os, sys; sys.path.append(os.path.abspath('.\..'))
-print(os.path.abspath('.\..'))
+import os, sys; sys.path.append(os.path.abspath('./.'))
+# print(os.path.abspath('./.'))
 
 # from utils.activation_functions import *
-from utils.propagation_function import L_model_forward
+from utils.propagation_function import L_model_forward, compute_cost
 from utils.initialization import initialize_parameters_deep
 import os, sys; sys.path.append(os.path.abspath('.\..\..'))
 
@@ -46,16 +46,15 @@ class NN_base():
         for key,value in self.parameters.items():
             print(f'{key}: {np.matrix(value)}\n')
 
-    def fit(self, X: np.array, Y: np.array = None):
+    def fit(self, X: np.array, Y: np.array):
         output, activation_cache = self._forward_propagation(X)
-        print(output.shape)
-        print(activation_cache)
-
+        cost = compute_cost(output, Y)
+        print(cost)
 
 first_layer_size = train_set_x.shape[0]
 hidden_layers_size = [first_layer_size,3,3,4,1]
 nn = NN_base(hidden_layers_size, seed = 23)
 # nn.print_parameters()
-nn.fit(train_set_x)
+nn.fit(train_set_x, train_set_y)
 
 
